@@ -1,0 +1,47 @@
+{
+  "open_smile:open_smile_best_3.jpg:0.5": {
+    "total": 1,
+    "likes": 0,
+    "dislikes": 1
+  },
+  "surprise:surprise_best_1.jpg:0.5": {
+    "total": 30,
+    "likes": 0,
+    "dislikes": 30
+  },
+  "smile:d30.jpg:1.5": {
+    "total": 9,
+    "likes": 2,
+    "dislikes": 7
+  },
+  "smile:smile_best_2.jpg:1.0": {
+    "total": 5,
+    "likes": 0,
+    "dislikes": 5
+  },
+  "open_smile:open_smile_best_1.jpg:0.0": {
+    "total": 1,
+    "likes": 1,
+    "dislikes": 0
+  },
+  "photoshoot:photoshoot_0001.jpg:1.0": {
+    "total": 1,
+    "likes": 0,
+    "dislikes": 1
+  },
+  "natural:natural_0001.jpg:1.0": {
+    "total": 1,
+    "likes": 0,
+    "dislikes": 1
+  },
+  "smile:d12.jpg:1.5": {
+    "total": 2,
+    "likes": 1,
+    "dislikes": 1
+  },
+  "smile:d12.jpg:1.0": {
+    "total": 1,
+    "likes": 0,
+    "dislikes": 1
+  }
+}

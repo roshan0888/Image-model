@@ -1,0 +1,77 @@
+{
+  "timestamp": "2026-03-23T08:13:27",
+  "deployed": {
+    "smile_best_1.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/open_smile_drivers/clean_open_smile_drivers_0006.jpg",
+      "avg_identity": 0.8599,
+      "avg_expression_change": 0.1452,
+      "combined_score": 0.9019
+    },
+    "smile_best_2.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/smile/clean_smile_0003.jpg",
+      "avg_identity": 0.7928,
+      "avg_expression_change": 0.0427,
+      "combined_score": 0.8111
+    },
+    "smile_best_3.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/smile/clean_smile_0001.jpg",
+      "avg_identity": 0.7945,
+      "avg_expression_change": 0.0386,
+      "combined_score": 0.7877
+    },
+    "open_smile_best_1.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/open_smile_drivers/clean_opensmile_0003.jpg",
+      "avg_identity": 0.8805,
+      "avg_expression_change": 0.0851,
+      "combined_score": 0.9163
+    },
+    "open_smile_best_2.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/open_smile_drivers/clean_open_smile_drivers_0006.jpg",
+      "avg_identity": 0.8601,
+      "avg_expression_change": 0.1452,
+      "combined_score": 0.9021
+    },
+    "open_smile_best_3.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/open_smile_drivers/clean_opensmile_0004.jpg",
+      "avg_identity": 0.86,
+      "avg_expression_change": 0.1452,
+      "combined_score": 0.902
+    },
+    "surprise_best_1.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/surprise/clean_surprise_0012.jpg",
+      "avg_identity": 0.8735,
+      "avg_expression_change": 0.0365,
+      "combined_score": 0.8307
+    },
+    "surprise_best_2.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/surprise/clean_surprise_0021.jpg",
+      "avg_identity": 0.7485,
+      "avg_expression_change": 0.0514,
+      "combined_score": 0.8239
+    },
+    "surprise_best_3.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/surprise/clean_surprise_0014.jpg",
+      "avg_identity": 0.7159,
+      "avg_expression_change": 0.145,
+      "combined_score": 0.8012
+    },
+    "sad_best_1.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/sad/clean_sad_0004.jpg",
+      "avg_identity": 0.8687,
+      "avg_expression_change": 0.045,
+      "combined_score": 0.8782
+    },
+    "sad_best_2.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/sad/clean_sad_0016.jpg",
+      "avg_identity": 0.8253,
+      "avg_expression_change": 0.0634,
+      "combined_score": 0.8777
+    },
+    "sad_best_3.jpg": {
+      "source": "/teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned_scraped/sad/clean_sad_0010.jpg",
+      "avg_identity": 0.8163,
+      "avg_expression_change": 0.0711,
+      "combined_score": 0.8714
+    }
+  }
+}

@@ -1,0 +1,62 @@
+# Images and datasets
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.bmp
+*.webp
+*.tiff
+
+# Model weights
+*.pth
+*.pt
+*.onnx
+*.bin
+*.safetensors
+
+# Raw data directories
+auto-train/raw_data/
+auto-train/output/
+auto-train/temp/
+
+# Model files (too large)
+auto-train/MagicFace/
+auto-train/gfpgan/weights/
+LivePortrait/pretrained_weights/
+LivePortrait/assets/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.eggs/
+*.egg-info/
+
+# Logs and checkpoints
+auto-train/training_engine/logs/
+auto-train/training_engine/checkpoints*/
+*.log
+*.jsonl
+
+# Embedded git repos (remove their .git dirs)
+LivePortrait/.git/
+auto-train/instantid_pipeline/repo/.git/
+
+# IDE / system
+.claude/
+.claude.json
+.codex/
+.cursor-server/
+.cursor-server
+.idea/
+.lightning_studio/
+.pki/
+.vscode-server/
+.vscode-server
+.vscode/
+.windsurf-server/
+.windsurf-server
+.wget-hsts
+.ipynb_checkpoints/
+*.tar.gz
+*.zip

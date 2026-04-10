@@ -1,0 +1,193 @@
+# ═══════════════════════════════════════════════════════════════
+# Autonomous Training Pipeline Configuration
+# ═══════════════════════════════════════════════════════════════
+
+paths:
+  base_dir: /teamspace/studios/this_studio/auto-train
+  liveportrait_dir: /teamspace/studios/this_studio/LivePortrait
+  dataset_dir: /teamspace/studios/this_studio/auto-train/training_engine/dataset
+  raw_images_dir: /teamspace/studios/this_studio/auto-train/training_engine/dataset/raw
+  cleaned_dir: /teamspace/studios/this_studio/auto-train/training_engine/dataset/cleaned
+  paired_dir: /teamspace/studios/this_studio/auto-train/training_engine/dataset/paired
+  checkpoints_dir: /teamspace/studios/this_studio/auto-train/training_engine/checkpoints
+  logs_dir: /teamspace/studios/this_studio/auto-train/training_engine/logs
+  experiments_dir: /teamspace/studios/this_studio/auto-train/training_engine/experiments
+  antelopev2_dir: /teamspace/studios/this_studio/auto-train/MagicFace/third_party_files
+
+# ── Data Collection ──────────────────────────────────────────
+data_collection:
+  target_total_images: 100000
+  min_images_per_identity: 5
+  max_images_per_identity: 50
+
+  # Search query templates for diverse face data
+  query_templates:
+    - "{ethnicity} {gender} {age} portrait photo {expression}"
+    - "{ethnicity} person {expression} face closeup"
+    - "professional headshot {gender} {age} {expression}"
+    - "candid portrait {ethnicity} {gender} smiling"
+    - "studio portrait {expression} face high quality"
+
+  ethnicity_distribution:
+    east_asian: 0.15
+    south_asian: 0.15
+    african: 0.15
+    caucasian: 0.15
+    latino: 0.15
+    middle_eastern: 0.10
+    southeast_asian: 0.10
+    mixed: 0.05
+
+  age_distribution:
+    "18-25": 0.20
+    "25-35": 0.25
+    "35-50": 0.25
+    "50-65": 0.20
+    "65+": 0.10
+
+  gender_distribution:
+    male: 0.50
+    female: 0.50
+
+  expression_types:
+    - neutral
+    - smile
+    - big_smile
+    - surprise
+    - angry
+    - sad
+    - laugh
+
+# ── Data Cleaning ────────────────────────────────────────────
+data_cleaning:
+  min_face_size: 256        # minimum face region pixels
+  max_face_size: 2048       # maximum (resize if larger)
+  min_sharpness: 50.0       # Laplacian variance threshold
+  max_pose_angle: 30.0      # degrees from frontal
+  min_brightness: 50        # face region mean
+  max_brightness: 220       # face region mean
+  min_detection_score: 0.7  # InsightFace detection confidence
+  max_occlusion_ratio: 0.15 # max face area occluded
+  jpeg_quality_min: 75      # reject over-compressed images
+
+# ── Identity Clustering ──────────────────────────────────────
+identity_clustering:
+  similarity_threshold: 0.55   # ArcFace cosine sim for same person
+  min_cluster_size: 3          # minimum images per identity
+  max_cluster_size: 50         # cap per identity
+  merge_threshold: 0.60        # merge clusters above this
+  dbscan_eps: 0.45             # 1 - similarity_threshold
+  dbscan_min_samples: 2
+
+# ── Dataset Balancing ────────────────────────────────────────
+dataset_balancing:
+  max_imbalance_ratio: 2.0    # max ratio between largest/smallest group
+  oversample_minority: true
+  undersample_majority: true
+  augmentation_for_minority:
+    horizontal_flip: true
+    brightness_jitter: 0.1
+    contrast_jitter: 0.1
+
+# ── Quality Scoring ──────────────────────────────────────────
+quality_scoring:
+  weights:
+    sharpness: 0.25
+    lighting: 0.20
+    pose: 0.20
+    expression_clarity: 0.15
+    resolution: 0.10
+    face_symmetry: 0.10
+  min_quality_score: 0.4      # reject below this
+
+# ── Training ─────────────────────────────────────────────────
+training:
+  # LoRA configuration for LivePortrait modules
+  lora:
+    rank: 8
+    alpha: 16
+    dropout: 0.05
+    # Which LP modules to apply LoRA to
+    # IMPORTANT: Skip up_0 and up_1 — they operate at 128x128 and 256x256
+    # and the unfold-based LoRA Conv2d is too memory-hungry for T4 (15GB)
+    target_modules:
+      warping_network:
+        - "third.conv"
+        - "fourth"
+      spade_generator:
+        - "fc"
+        - "G_middle_0"
+        - "G_middle_1"
+        - "G_middle_2"
+        - "G_middle_3"
+        - "G_middle_4"
+        - "G_middle_5"
+      motion_extractor:
+        - "fc_exp"
+        - "fc_kp"
+      stitching_retargeting: []
+
+  # Loss weights
+  losses:
+    identity_loss: 10.0       # ArcFace cosine similarity
+    expression_loss: 5.0      # Landmark displacement from target
+    perceptual_loss: 2.0      # LPIPS
+    pixel_loss: 1.0           # L1 pixel loss
+    regularization: 0.01      # LoRA weight decay
+
+  # Training schedule
+  schedule:
+    batch_size: 2
+    learning_rate: 1.0e-4
+    lr_scheduler: cosine
+    warmup_steps: 500
+    total_steps: 50000
+    eval_every: 1000
+    save_every: 5000
+    gradient_accumulation: 4
+    max_grad_norm: 1.0
+    mixed_precision: fp16
+
+  # Early stopping
+  early_stopping:
+    patience: 5               # eval cycles without improvement
+    min_delta: 0.001          # minimum identity score improvement
+    target_identity: 0.995    # stop when reached
+
+# ── Failure Detection ────────────────────────────────────────
+failure_detection:
+  identity_threshold: 0.90     # below = identity failure
+  expression_threshold: 0.005  # below = expression failure
+  artifact_lpips_threshold: 0.5 # above = artifact detected
+  # Failure categories for reinforcement
+  categories:
+    - identity_drift
+    - weak_expression
+    - artifacts
+    - color_shift
+    - boundary_seam
+    - pose_mismatch
+
+# ── Reinforcement Data Engine ────────────────────────────────
+reinforcement:
+  failure_analysis_interval: 5000  # steps between analyses
+  min_failure_samples: 10          # minimum failures to trigger
+  max_reinforcement_queries: 20    # queries per cycle
+  scrape_per_query: 50             # images per query
+
+# ── LLM Orchestrator ────────────────────────────────────────
+orchestrator:
+  model: "claude-sonnet-4-20250514"
+  max_tokens: 4096
+  analysis_interval: 10000       # steps between LLM analyses
+  auto_adjust_lr: true
+  auto_adjust_losses: true
+  auto_generate_queries: true
+
+# ── Continuous Loop ──────────────────────────────────────────
+continuous_loop:
+  max_cycles: 20
+  target_identity_score: 0.995
+  min_expression_score: 0.015
+  cycle_steps: 10000
+  data_refresh_every: 3          # cycles between data refresh
