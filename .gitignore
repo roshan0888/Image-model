@@ -14,10 +14,32 @@
 *.bin
 *.safetensors
 
-# Raw data directories
-auto-train/raw_data/
+# Raw data directories (images excluded, but URL catalogs + metadata allowed)
+auto-train/raw_data/**/*.jpg
+auto-train/raw_data/**/*.jpeg
+auto-train/raw_data/**/*.png
+auto-train/raw_data/**/*.webp
+auto-train/raw_data/model_photos/
+auto-train/raw_data/cleaned/
+auto-train/raw_data/pairs/
+auto-train/raw_data/bulk_scrape/
+auto-train/raw_data/starnow_ugc_models/
+auto-train/raw_data/rejected_underage/
+auto-train/raw_data/imgmodels_london/images/
+auto-train/raw_data/imgmodels_london/smile/
+auto-train/raw_data/imgmodels_london/neutral/
+auto-train/raw_data/imgmodels_london/ambiguous/
+auto-train/raw_data/imgmodels_london/no_face/
 auto-train/output/
 auto-train/temp/
+auto-train/diffusion_pipeline/outputs/
+auto-train/diffusion_pipeline/models/
+auto-train/diffusion_pipeline/user_training/user_data/*/raw_photos/
+auto-train/diffusion_pipeline/user_training/user_data/*/photos/
+auto-train/diffusion_pipeline/user_training/user_data/*/lora/
+auto-train/diffusion_pipeline/user_training/user_data/*/*.png
+auto-train/diffusion_pipeline/user_training/user_data/*/*.jpg
+auto-train/diffusion_pipeline/user_training/user_data/smoke_test/
 
 # Model files (too large)
 auto-train/MagicFace/

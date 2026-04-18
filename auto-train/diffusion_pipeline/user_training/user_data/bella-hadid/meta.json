@@ -1,0 +1,8 @@
+{
+  "user_id": "bella-hadid",
+  "instance_token": "ohwx person",
+  "base_model": "realvis-xl-v4",
+  "rank": 16,
+  "steps": 1000,
+  "n_photos": 27
+}
